@@ -67,24 +67,6 @@ int get_next_line(const int fd, char **line)
 			return (0);
 		*line = get_first_part(data);
 		data = get_second_part(data);
-		// newline = strchr(data, '\n');
-		// if(newline == NULL)
-		// {
-		// 	while (newline == NULL)
-		// 	{
-		// 		read(fd, buffer, BUFF_SIZE); //on lit un nombre BUFF_SIZE de characteres depuis le fd dans le buffer
-		// 		data = ft_strjoin(data, buffer);
-		// 		newline = strchr(data, '\n');
-		// 	}
-		// }
-		// else
-		// 	{
-		// 	*line = data;
-		// 	return 1;
-		// }
-
-
-		// data = ft_strjoin(data, buffer);
 		return 1;
 }
 int			main(int argc, char **argv)
@@ -102,10 +84,7 @@ int			main(int argc, char **argv)
 			printf("%s\n", line);
 		free(line);
 		line = NULL;
-//		ft_putendl(line);
-//		ft_strdel(&line);
 	}
-	while (1);
 	close(fd);
 	return (0);
 }
