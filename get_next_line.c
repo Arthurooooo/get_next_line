@@ -17,7 +17,7 @@ char *get_first_part(char *data){
 	int i;
 
 	i = 0;
-	while(data[i] != '\n')
+	while(data[i] && data[i] != '\n')
 	{
 		i++;
 	}
@@ -28,15 +28,19 @@ char *get_first_part(char *data){
 char *get_second_part(char *data)
 {
 	char *ptr;
-	ptr = ft_strdup(ft_strchr(data,'\n') + 1);
-	ft_bzero(data, ft_strlen(data));
-	data = ft_strjoin("", ptr);
+	if(ft_strchr(data, '\n'))
+	{
+		ptr = ft_strdup(ft_strchr(data,'\n') + 1);
+		ft_bzero(data, ft_strlen(data));
+		data = ft_strjoin("", ptr);
+	}
+	else
+		ft_bzero(data, ft_strlen(data));
 	return  data;
 }
 
 int get_next_line(const int fd, char **line)
 {
-	char *newline;
 	int c;
 	int ret = 0;
 	c = 0;
@@ -69,22 +73,22 @@ int get_next_line(const int fd, char **line)
 		data = get_second_part(data);
 		return 1;
 }
-int			main(int argc, char **argv)
-{
-	if (argc != 2)
-		return (1);
-	char *line = NULL;
-	int	i;
-	int fd;
 
-	fd = open(argv[1], O_RDONLY);
+// int			main(int argc, char **argv)
+// {
+// 	if (argc != 2)
+// 		return (1);
+// 	char *line = NULL;
+// 	int fd;
 
-	while (get_next_line(fd, &line) > 0)
-	{
-			printf("%s\n", line);
-		free(line);
-		line = NULL;
-	}
-	close(fd);
-	return (0);
-}
+// 	fd = open(argv[1], O_RDONLY);
+
+// 	while (get_next_line(fd, &line) > 0)
+// 	{
+// 			printf("%s\n", line);
+// 		free(line);
+// 		line = NULL;
+// 	}
+// 	close(fd);
+// 	return (0);
+// }
