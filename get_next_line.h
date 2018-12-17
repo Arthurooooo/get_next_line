@@ -10,14 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <sys/types.h>
-#include "libft/libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-#define BUFF_SIZE 32
-#define MAX_SIZE 256
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <fcntl.h>
+# include <sys/types.h>
+# include "libft/libft.h"
+
+# define BUFF_SIZE 32
+# define MAX_SIZE 256
 
 int get_next_line(const int fd, char **line);
+
+#endif

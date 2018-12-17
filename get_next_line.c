@@ -14,66 +14,60 @@
 
 char	*get_first_part(char *data)
 {
-	char *firstpart;
-	int i;
+	int		i;
+	char	*firstpart;
 
 	i = 0;
 	while (data[i] && data[i] != '\n')
-	{
 		i++;
-	}
 	firstpart = ft_strsub(data, 0, i);
 	return (firstpart);
 }
+
 char	*get_second_part(char *data)
 {
-	char *ptr;
+	char	*ptr;
 
 	if (ft_strchr(data, '\n'))
 	{
 		ptr = ft_strdup(ft_strchr(data, '\n') + 1);
-		ft_bzero(data, ft_strlen(data));
-		data = ft_strjoin("", ptr);
+		free(data);
+		data = ptr;
 	}
 	else
 		ft_bzero(data, ft_strlen(data));
 	return (data);
 }
 
-char	check_data(char **data, char *buffer, int fd)
+void	check_data(char **data, int fd)
 {
 	if (!data[fd])
-	{
-		data[fd] = ft_strnew(BUFF_SIZE + 1);//then malloc the static
-		bzero(buffer, BUFF_SIZE + 1);// vide le buffer
-	}
-	return *buffer;
+		data[fd] = ft_strnew(BUFF_SIZE + 1);
 }
 
 int		get_next_line(const int fd, char **line)
 {
-	int ret;
-	char buffer[BUFF_SIZE + 1];
-	char *tmp;
-	static char *data[MAX_SIZE];
+	int			ret;
+	char		buffer[BUFF_SIZE + 1];
+	char		*tmp;
+	static char	*data[MAX_SIZE];
 
 	if (!line || fd < 0 || (ret = read(fd, buffer, 0)) < 0)
 		return (-1);
-	ret = 0;
-	*buffer = check_data(data, buffer, fd);
+	check_data(data, fd);
+	bzero(buffer, BUFF_SIZE + 1);
 	while ((ret = read(fd, buffer, BUFF_SIZE)) > 0)
 	{
 		buffer[ret] = '\0';
 		tmp = ft_strjoin(data[fd], buffer);
 		ft_strdel(&data[fd]);
-		data[fd] = ft_strdup(tmp);
-		ft_strdel(&tmp);
+		data[fd] = tmp;
 		if (ft_strchr(data[fd], '\n'))
 			break ;
 	}
+	*line = get_first_part(data[fd]);
 	if (!ft_strcmp(data[fd], ""))
 		return (0);
-	*line = get_first_part(data[fd]);
 	data[fd] = get_second_part(data[fd]);
 	return (1);
 }
